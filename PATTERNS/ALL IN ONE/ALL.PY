@@ -23,7 +23,6 @@ for i in range(n):
     print()
 
 
-print("------------------------")
 for i in range(n):
     for j in range(i+1):
         print(" ",end="")
