@@ -1,12 +1,8 @@
-# Python List Example
 
-# Creating a list
 fruits = ["apple", "banana", "cherry", "mango"]
 
-# Printing the list
 print("Original List:", fruits)
 
-# Accessing elements
 print("First fruit:", fruits[0])
 print("Last fruit:", fruits[-1])
 
@@ -30,7 +26,6 @@ print("After pop:", fruits)
 # Slicing
 print("First two fruits:", fruits[:2])
 
-# Iterating through list
 print("All fruits:")
 for fruit in fruits:
     print("-", fruit)
