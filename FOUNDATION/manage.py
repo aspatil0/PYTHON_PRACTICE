@@ -2,37 +2,36 @@ import os
 import shutil
 import re
 
-source_dir = "C:/Users/Aditya/Downloads/files"
-destination_dir = "C:/Users/Aditya/Documents/organized_files"
+source = "C:/Users/Aditya/Downloads/files"
+dest = "C:/Users/Aditya/Documents/organized_files"
 
-os.makedirs(destination_dir, exist_ok=True)
+os.makedirs(dest, exist_ok=True)
+pattern = re.compile(r'@([\w.-]+)|https?://([\w.-]+)')
 
-domain_pattern = re.compile(r'@([\w.-]+)|https?://([\w.-]+)')
-
-for file_name in os.listdir(source_dir):
-    file_path = os.path.join(source_dir, file_name)
-
-    if not os.path.isfile(file_path):
+for name in os.listdir(source):
+    path = os.path.join(source, name)
+    if not os.path.isfile(path):
         continue
 
     domain = None
-    match = domain_pattern.search(file_name)
-    if match:
-        domain = match.group(1) or match.group(2)
-    else:
+    match = pattern.search(name)
+
+    if not match:
         try:
-            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
-                content = f.read()
-                match = domain_pattern.search(content)
+            with open(path, 'r', encoding='utf-8', errors='ignore') as f:
+                text = f.read()
+                match = pattern.search(text)
                 if match:
                     domain = match.group(1) or match.group(2)
-        except Exception as e:
-            print(f"Cannot read file {file_name}: {e}")
+        except:
+            pass
+    else:
+        domain = match.group(1) or match.group(2)
 
     if domain:
-        domain_folder = os.path.join(destination_dir, domain)
-        os.makedirs(domain_folder, exist_ok=True)
-        shutil.move(file_path, os.path.join(domain_folder, file_name))
-        print(f"Moved {file_name} → {domain}")
+        folder = os.path.join(dest, domain)
+        os.makedirs(folder, exist_ok=True)
+        shutil.move(path, os.path.join(folder, name))
+        print(f"Moved: {name} → {domain}")
     else:
-        print(f"No domain found in {file_name}")
+        print(f"No domain found in: {name}")
